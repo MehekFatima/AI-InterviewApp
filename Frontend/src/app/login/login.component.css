@@ -1,0 +1,248 @@
+.login-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #eef2f3, #cfd9df);
+  overflow: hidden;
+}
+
+.image-section {
+  flex: 1;
+  background-color: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.image-section img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  animation: float 3s ease-in-out infinite;
+}
+
+.form-section {
+  flex: 1;
+  padding: 50px;
+  background-color: #ffffff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 600px;
+  margin: auto;
+  height: 100vh;
+  overflow-y: auto; 
+}
+
+.about-app {
+  margin-bottom: 30px;
+}
+
+.about-app h1 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.about-app p {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.5;
+}
+
+h2 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: #222;
+}
+
+p {
+  margin-bottom: 30px;
+  color: #666;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+input {
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  transition: border-color 0.3s;
+  font-size: 15px;
+}
+
+input:focus {
+  border-color: #4D55CC;
+  outline: none;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.password-wrapper i {
+  position: absolute;
+  right: 12px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+button {
+  background-color: #4D55CC;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #211C84;
+}
+
+.signup-link {
+  margin-top: 15px;
+  font-size: 0.95rem;
+  text-align: center;
+  color: #555;
+}
+
+.signup-link a {
+  color: #27548A;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* Medium screens - Tablets */
+@media screen and (max-width: 1024px) {
+  .form-section {
+    padding: 30px;
+  }
+
+  .about-app h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}
+
+/* Small screens - Phones */
+@media screen and (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    height: auto;
+    padding: 0;
+  }
+
+  .image-section,
+  .form-section {
+    width: 90%;
+    height: auto;
+  }
+
+  .image-section {
+    padding: 20px;
+  }
+
+  .form-section {
+    padding: 20px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .about-app h1 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .about-app p {
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  p,
+  .form-section > p {
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+
+  .form-group label {
+    font-size: 14px;
+  }
+
+  input,
+  .password-wrapper input {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .password-wrapper i {
+    font-size: 1rem;
+  }
+
+  button {
+    font-size: 0.95rem;
+    padding: 12px;
+  }
+
+  .signup-link {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .signup-link a {
+    font-size: 0.95rem;
+  }
+}
+
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
