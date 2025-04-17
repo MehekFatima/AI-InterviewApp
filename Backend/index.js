@@ -1,14 +1,17 @@
 import express from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
 import { connectDB } from './data/db.js';
 import router from './router/route.js';
+import cookieParser from 'cookie-parser';
 const app = express();
-dotenv.config();
+
 
 
 connectDB();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use('/api/v1/', router);
 
 app.get('/',(req, res)=>{
