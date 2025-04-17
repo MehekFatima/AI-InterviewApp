@@ -1,0 +1,38 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-content">
+  <h2>Welcome to your Dashboard!</h2>
+  <p class="subtext">Create and start your AI mock interview</p>
+  <button class="add-btn" (click)="openPopup()">+ Add New Interview</button>
+
+
+  <div class="popup" *ngIf="showPopup">
+    <div class="popup-content">
+      <h3>Please fill details about the interview you want to start</h3>
+      
+      <label>Job Title</label>
+      <input type="text" [(ngModel)]="newInterview.jobTitle" />
+
+      <label>Job Description</label>
+      <textarea rows="4" [(ngModel)]="newInterview.jobDescription"></textarea>
+
+      <label>Experience (in years)</label>
+      <input type="number" [(ngModel)]="newInterview.experience" />
+
+      <div class="popup-actions">
+        <button class="cancel-btn" (click)="closePopup()">Cancel</button>
+        <button class="start-btn" (click)="startInterview()">Start Interview</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <h3 class="section-title">Previous Interviews</h3>
+  <div class="interview-list">
+    <div class="interview-card" *ngFor="let interview of interviews">
+      <h4>{{ interview.jobTitle }}</h4>
+      <p>Created At: {{ interview.createdAt | date:'medium' }}</p>
+      <button class="feedback-btn">Feedback</button>
+    </div>
+  </div>
+</div>

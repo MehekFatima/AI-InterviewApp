@@ -1,0 +1,40 @@
+.how-it-works-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: auto;
+    background-color: #FAFAF2;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-top: 20px;
+  }
+  
+  .page-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #2D336B;
+    font-weight: 700;
+  }
+  
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .icon {
+    font-size: 2rem;
+    color: #599BE1;
+    margin-top: 4px;
+  }
+  
+  .step h4 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .step p {
+    margin: 0.25rem 0 0;
+    color: #555;
+  }  
