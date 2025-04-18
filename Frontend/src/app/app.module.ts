@@ -10,6 +10,8 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HowItWorksComponent } from './pages/how-it-works/how-it-works.component';
+import { StartInterviewComponent } from './pages/start-interview/start-interview.component';
+
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { HowItWorksComponent } from './pages/how-it-works/how-it-works.component
     SignupComponent,
     NavbarComponent,
     DashboardComponent,
-    HowItWorksComponent
+    HowItWorksComponent,
+    StartInterviewComponent
   ],
   imports: [
     BrowserModule,

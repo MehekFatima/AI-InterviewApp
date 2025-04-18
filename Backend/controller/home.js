@@ -1,5 +1,5 @@
 import { mockInterview } from "../models/mockInterview.js";
-import { generateQuestions } from "../utils/gemini.js";
+import { generateQuestions } from "../utils/deepSeek.js";
 
 
 
@@ -15,30 +15,33 @@ export const home = async (req, res, next) =>{
 export const generateQuestionsGemini = async (req, res, next) =>{
     console.log("generating questions");
     try {
-        const { jobTitle, experience, skills, userId } = req.body;
+        const { jobTitle, experience, jobDescription } = req.body;
     
-        if (!jobTitle || !experience || !skills || !userId) {
+        if (!jobTitle || !experience || !jobDescription) {
           return res.status(400).json({ message: "Missing required fields" });
         }
     
-        const questionsText = await generateQuestions(jobTitle, experience, skills);
+        const questionsText = await generateQuestions(jobTitle, experience, jobDescription);
+        console.log("Generated Questions:", questionsText);
         
     
-        const questions = questionsText
-          .split('\n')
-          .filter(q => q.trim().length > 0)
-          .map(q => ({ questionText: q.trim() }));
+        const questions = Array.isArray(questionsText)
+  ? questionsText.filter(q => q.trim().match(/^\d+\./))  
+  : questionsText
+      .split('\n')
+      .filter(q => q.trim().match(/^\d+\./));
 
+        const formattedQuestions = questions.map((q) => ({questionText:q}));
           const interview = new mockInterview({
-            userId,
             jobTitle,
             experience,
-            skills,
-            questions,
+            jobDescription,
+            questions: formattedQuestions,
+            interviewDate: new Date(),
             completed: false
           });
       
-          // interview.save();
+          await interview.save();
     
         res.status(200).json({ questions });
       } catch (error) {

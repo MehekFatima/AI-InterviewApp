@@ -1,0 +1,90 @@
+.start-container {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.interview-layout {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.job-box {
+  flex: 1;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.camera-box {
+  flex: 1;
+  padding: 1rem;
+  background: #e8f0fe;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.camera-box:hover {
+  transform: scale(1.02);
+}
+
+.camera-box i {
+  font-size: 50px;
+  color: #2E5077;
+  margin-bottom: 1rem;
+}
+
+.info-box {
+  padding: 1rem;
+  background: #fff3cd; 
+  border: 2px solid #e0a800; 
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: #856404; 
+  margin-top: 1rem; 
+  width: 100%; 
+  box-sizing: border-box;
+}
+
+.info-box p {
+  margin: 0.5rem 0;
+}
+
+.start-btn-wrapper {
+  margin-top: 2rem;
+  text-align: right;
+}
+
+.start-btn {
+  padding: 10px 24px;
+  background-color: #2E5077;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.video-container {
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  margin-top: 1rem;
+  border: 2px solid #ddd;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+video {
+  width: 40%;
+  height: auto;
+  object-fit: cover;
+}
