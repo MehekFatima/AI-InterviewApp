@@ -11,6 +11,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HowItWorksComponent } from './pages/how-it-works/how-it-works.component';
 import { StartInterviewComponent } from './pages/start-interview/start-interview.component';
+import { QuestionAnswerComponent } from './pages/question-answer/question-answer.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { StartInterviewComponent } from './pages/start-interview/start-interview
     NavbarComponent,
     DashboardComponent,
     HowItWorksComponent,
-    StartInterviewComponent
+    StartInterviewComponent,
+    QuestionAnswerComponent
   ],
   imports: [
     BrowserModule,

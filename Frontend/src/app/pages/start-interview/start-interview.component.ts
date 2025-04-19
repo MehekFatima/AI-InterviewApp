@@ -49,4 +49,9 @@ export class StartInterviewComponent implements AfterViewInit {
       console.log('Media stopped');
     }
   }
+
+  navigateToAnswerPage() {
+    this.router.navigate(['/interview/questions']);
+  }
+
 }

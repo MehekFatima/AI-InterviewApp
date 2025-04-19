@@ -1,0 +1,30 @@
+<app-navbar></app-navbar>
+
+<div class="container" style="display: flex; gap: 2rem;">
+  <!-- Left Column -->
+  <div style="flex: 1;">
+    <h2>{{ currentQuestion?.questionText }}</h2>
+
+    <div class="note" style="margin-top: 1rem; font-style: italic;">
+      After finishing the interview, we’ll provide feedback based on your responses.
+    </div>
+
+    <div class="transcript" style="margin-top: 2rem;">
+      <h3>Transcript:</h3>
+      <p>{{ recordedText }}</p>
+    </div>
+  </div>
+
+  <!-- Right Column -->
+  <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+    <div class="video-wrapper" style="border: 2px dashed #ccc; padding: 1rem; border-radius: 10px;">
+      <video #video autoplay muted playsinline width="400" height="300"></video>
+    </div>
+
+    <div class="actions" style="margin-top: 1rem;">
+      <button (click)="enableMedia()">Enable Camera</button>
+      <button (click)="startRecording()">Start Recording</button>
+      <button (click)="stopRecording()">Stop Recording</button>
+    </div>
+  </div>
+</div>

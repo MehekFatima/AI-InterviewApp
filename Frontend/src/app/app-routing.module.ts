@@ -5,6 +5,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HowItWorksComponent } from './pages/how-it-works/how-it-works.component';
 import { StartInterviewComponent } from './pages/start-interview/start-interview.component';
+import { QuestionAnswerComponent } from './pages/question-answer/question-answer.component';
 
 const routes: Routes = [
   {path:"",component:LoginComponent},
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   {path:'dashboard', component:DashboardComponent},
   { path: 'how-it-works', component: HowItWorksComponent },
-  { path: 'start-interview', component: StartInterviewComponent }
+  { path: 'start-interview', component: StartInterviewComponent },
+  {path:'interview/questions', component:QuestionAnswerComponent}
 ];
 
 @NgModule({
