@@ -33,11 +33,13 @@ export class LoginComponent {
       password: this.password
     };
 
-    this.http.post('http://localhost:5000/api/v1/login', loginData, { withCredentials: true })
+    this.http.post('http://localhost:4000/api/v1/login', loginData, { withCredentials: true })
       .subscribe({
         next: (res: any) => {
           localStorage.setItem('authToken', res.token); 
           alert("Login Successful!");
+          console.log(res);
+          localStorage.setItem('userId', res.userId);
           this.router.navigate(['/dashboard']); 
         },
         error: (err) => {

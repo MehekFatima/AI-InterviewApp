@@ -1,0 +1,28 @@
+<app-navbar></app-navbar>
+
+<div class="start-container">
+  <h2>Let's Get Started</h2>
+
+  <div class="interview-layout">
+    <div class="job-box">
+      <h3>{{ interviewData?.jobTitle }}</h3>
+      <p><strong>Description:</strong> {{ interviewData?.jobDescription }}</p>
+      <p><strong>Experience:</strong> {{ interviewData?.experience }} years</p>
+    </div>
+
+    <div *ngIf="!mediaStream" class="camera-box" (click)="enableMedia()">
+      <i class="bi bi-camera video-icon"></i>
+      <p>Click to enable camera & mic</p>
+    </div>
+    <video *ngIf="mediaStream" autoplay></video>
+  </div>
+  <div class="info-box">
+    <p>💡 We never store your data. Enabling the camera helps make the interview feel real and immersive.</p>
+    <p>By clicking the button, your camera and microphone will be accessed to simulate a live interview. No data will be stored, and we respect your privacy.</p>
+    <p>Please ensure your camera and mic are working correctly before proceeding.</p>
+  </div>
+
+  <div class="start-btn-wrapper">
+    <button class="start-btn" (click)="navigateToAnswerPage()">Start Interview</button>
+  </div>
+</div>
