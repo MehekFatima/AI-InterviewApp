@@ -1,4 +1,5 @@
 import { mockInterview } from "../models/mockInterview.js";
+import { User } from "../models/user.js";
 import { generateQuestions } from "../utils/deepSeek.js";
 
 
@@ -15,12 +16,15 @@ export const home = async (req, res, next) =>{
 export const generateQuestionsGemini = async (req, res, next) =>{
     console.log("generating questions");
     try {
-        const { jobTitle, experience, jobDescription } = req.body;
+        const {userId, jobTitle, experience, jobDescription} = req.body;
+
+
+        console.log("given data is",userId, jobTitle, experience, jobDescription )
     
-        if (!jobTitle || !experience || !jobDescription) {
+        if (!jobTitle || !experience || !jobDescription || !userId) {
           return res.status(400).json({ message: "Missing required fields" });
         }
-    
+       
         const questionsText = await generateQuestions(jobTitle, experience, jobDescription);
         console.log("Generated Questions:", questionsText);
         
@@ -32,8 +36,8 @@ export const generateQuestionsGemini = async (req, res, next) =>{
       .filter(q => q.trim().match(/^\d+\./));
 
         const formattedQuestions = questions.map((q) => ({questionText:q}));
-        const userId = req.user._id;
-          const interview = new mockInterview({
+        // const userId = req.user._id;
+          const newInterview = await mockInterview.create({
             jobTitle,
             experience,
             jobDescription,
@@ -43,9 +47,9 @@ export const generateQuestionsGemini = async (req, res, next) =>{
             completed: false
           });
       
-          await interview.save();
+          // await interview.save();
     
-        res.status(200).json({ questions });
+        res.status(200).json({ newInterview });
       } catch (error) {
         console.error("Error generating questions:", error);
         res.status(500).json({ message: "Something went wrong" });
@@ -53,13 +57,46 @@ export const generateQuestionsGemini = async (req, res, next) =>{
 
 }
 
+// user data
+
+export const getUserData = async(req, res)=>{
+
+  try {
+    const userId = req.params.id;
+
+    
+    const user = await User.findById(userId).select('name email');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const interviews = await mockInterview.find({ userId }).select('-__v');
+
+    res.status(200).json({
+      name: user.name,
+      email: user.email,
+      interviews
+    });
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+
+}
+
+
+
 
 export const getInterview = async (req, res) => {
   console.log("Fetching interview data");
-  console.log(req.user._id);
+
+
+  console.log(req.params.interviewId);
+  
   
   try {
-    const userId = req.user._id; 
+    const userId = req.params.interviewId;
+
     const interview = await mockInterview.findOne({ userId }).sort({ interviewDate: -1 });
     if (!interview) return res.status(404).json({ message: "No interview found" });
     res.status(200).json(interview);
@@ -67,6 +104,8 @@ export const getInterview = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch interview", error });
   }
 };
+
+
 
 
 export const saveAnswer = async (req, res) => {
