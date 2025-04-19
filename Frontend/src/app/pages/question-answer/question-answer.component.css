@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.left-col, .right-col {
+  flex: 1;
+}
+
+.note {
+  margin-top: 1rem;
+  color: gray;
+  font-style: italic;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+video {
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+}
+
+.enable-btn {
+  padding: 1rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.actions {
+  margin-top: 1rem;
+}
+
+button {
+  margin-right: 10px;
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}

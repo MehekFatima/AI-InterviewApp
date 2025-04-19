@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { InterviewService } from 'src/app/services/interview.service';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-dashboard',
@@ -14,10 +16,9 @@ export class DashboardComponent {
     experience: ''
   };
 
-  interviews = [
-    { jobTitle: 'Frontend Developer', createdAt: new Date() },
-    { jobTitle: 'Backend Developer', createdAt: new Date() }
-  ];
+  interviews: { jobTitle: string; jobDescription: string; experience: string; createdAt: Date }[] = [];
+
+  constructor(private interviewService: InterviewService, private router: Router) {} 
 
   openPopup() {
     this.showPopup = true;
@@ -32,8 +33,21 @@ export class DashboardComponent {
       ...this.newInterview,
       createdAt: new Date()
     };
-    this.interviews.push(newEntry);
-    this.newInterview = { jobTitle: '', jobDescription: '', experience: '' };
-    this.showPopup = false;
+
+    this.interviewService.generateQuestions(this.newInterview).subscribe({
+      next: (res: any) => {
+        console.log('Questions generated:', res);
+        this.interviews.push(newEntry);
+        this.router.navigate(['/start-interview'], {
+          state: { data: this.newInterview }
+        });
+
+        this.newInterview = { jobTitle: '', jobDescription: '', experience: '' };
+        this.showPopup = false;
+      },
+      error: (err) => {
+        console.error('Error generating questions:', err);
+      }
+    });
   }
 }
