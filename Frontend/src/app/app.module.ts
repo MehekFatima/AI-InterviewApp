@@ -12,6 +12,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HowItWorksComponent } from './pages/how-it-works/how-it-works.component';
 import { StartInterviewComponent } from './pages/start-interview/start-interview.component';
 import { QuestionAnswerComponent } from './pages/question-answer/question-answer.component';
+import { FeedbackComponent } from './pages/feedback/feedback.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { QuestionAnswerComponent } from './pages/question-answer/question-answer
     DashboardComponent,
     HowItWorksComponent,
     StartInterviewComponent,
-    QuestionAnswerComponent
+    QuestionAnswerComponent,
+    FeedbackComponent
   ],
   imports: [
     BrowserModule,

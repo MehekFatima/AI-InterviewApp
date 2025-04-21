@@ -1,6 +1,7 @@
 import { mockInterview } from "../models/mockInterview.js";
 import { User } from "../models/user.js";
 import { generateQuestions } from "../utils/deepSeek.js";
+import mongoose from 'mongoose';
 
 
 
@@ -89,13 +90,10 @@ export const getUserData = async(req, res)=>{
 
 export const getInterview = async (req, res) => {
   console.log("Fetching interview data");
-
-
   console.log(req.params.interviewId);
-  
-  
   try {
     const userId = req.params.interviewId;
+    console.log("User ID:", userId);
 
     const interview = await mockInterview.findOne({ userId }).sort({ interviewDate: -1 });
     if (!interview) return res.status(404).json({ message: "No interview found" });
@@ -111,18 +109,34 @@ export const getInterview = async (req, res) => {
 export const saveAnswer = async (req, res) => {
   try {
     const { interviewId, text, questionIndex } = req.body;
+    console.log("Saving answer for interviewId:", interviewId);
+    console.log("Answer text:", text);
+    console.log("Question index:", questionIndex);
+
+    if (!mongoose.Types.ObjectId.isValid(interviewId)) {
+      return res.status(400).json({ message: 'Invalid interview ID' });
+    }
 
     const interview = await mockInterview.findById(interviewId);
     if (!interview) {
       return res.status(404).json({ message: 'Interview not found' });
     }
 
+    if (!interview.questions || !interview.questions[questionIndex]) {
+      return res.status(400).json({ message: 'Invalid question index' });
+    }
+
     interview.questions[questionIndex].answerText = text;
+
+    // Optional: only set completed when all answers are filled
+    // interview.completed = interview.questions.every(q => q.answerText && q.answerText.trim());
+
     await interview.save();
 
     res.status(200).json({ message: 'Answer saved successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Error saving answer', error });
+    console.error("Error in saveAnswer:", error); 
+    res.status(500).json({ message: 'Error saving answer', error: error.message || error });
   }
 };
 
