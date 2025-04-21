@@ -1,30 +1,52 @@
 <app-navbar></app-navbar>
 
 <div class="container" style="display: flex; gap: 2rem;">
+
   <!-- Left Column -->
   <div style="flex: 1;">
-    <h2>{{ currentQuestion?.questionText }}</h2>
 
-    <div class="note" style="margin-top: 1rem; font-style: italic;">
-      After finishing the interview, we’ll provide feedback based on your responses.
+    <!-- Timer -->
+    <div class="timer" style="margin-bottom: 1rem;">
+      <p><strong>Time Left: {{ getTimerDisplay() }}</strong></p>
     </div>
 
+    <!-- Question Box -->
+    <div class="question-box" style="border: 2px solid #ccc; padding: 1rem; border-radius: 10px;">
+      <div class="question-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="progress" style="border-radius: 50%; width: 40px; height: 40px; background-color: #007bff; text-align: center; color: white; font-weight: bold;">
+          {{ currentQuestionIndex + 1 }}
+        </div>
+        <button (click)="readQuestion()" style="background: none; border: none; font-size: 1.5rem;">🔊</button>
+      </div>
+
+      <div class="question-content" style="margin-top: 1rem;">
+        <h2>{{ currentQuestion?.questionText }}</h2>
+      </div>
+    </div>
+
+    <!-- Transcript Section -->
     <div class="transcript" style="margin-top: 2rem;">
       <h3>Transcript:</h3>
-      <p>{{ recordedText }}</p>
+      <p>{{ transcript }}</p>
     </div>
+
   </div>
 
   <!-- Right Column -->
   <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+
+    <!-- Video Section -->
     <div class="video-wrapper" style="border: 2px dashed #ccc; padding: 1rem; border-radius: 10px;">
       <video #video autoplay muted playsinline width="400" height="300"></video>
     </div>
 
-    <div class="actions" style="margin-top: 1rem;">
-      <button (click)="enableMedia()">Enable Camera</button>
-      <button (click)="startRecording()">Start Recording</button>
-      <button (click)="stopRecording()">Stop Recording</button>
+    <!-- Controls -->
+    <div class="actions" style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+      <button (click)="startRecording()" [disabled]="isRecording">Start Recording</button>
+      <button (click)="stopRecording()" [disabled]="!isRecording">Stop Recording</button>
+      <button (click)="nextQuestion()" [disabled]="currentQuestionIndex >= questions.length - 1">Next Question</button>
     </div>
+
   </div>
+
 </div>
