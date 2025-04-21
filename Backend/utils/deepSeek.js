@@ -9,7 +9,7 @@ Job Title: ${jobTitle}
 Experience: ${experience} years
 Skills: ${jobDescription}
 
-Only return the questions in numbered format like:
+Only return the questions in numbered format like and ask like you are the interviewer:
 1. ...
 2. ...
 3. ...
@@ -35,7 +35,7 @@ Only return the questions in numbered format like:
 
     const questions = lines.filter(line => line.trim().match(/^\d+\./));
 
-    console.log("Generated Questions:", questions);
+    
     return questions;
 
   } catch (error) {

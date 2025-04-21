@@ -26,10 +26,10 @@ export class QuestionAnswerComponent implements OnInit {
   
   fetchInterviewQuestions() {
 
-    const interviewId = localStorage.getItem('interviewId') || '';
-    console.log('interviewId:', interviewId);
+    const userId = localStorage.getItem('userId') || '';
+    console.log('interviewId:', userId);
     
-    this.http.get<any>(`http://localhost:5000/api/v1/interviews/`, { params: { interviewId }, withCredentials: true })
+    this.http.get<any>(`http://localhost:4000/api/v1/interviews/${userId}`, { withCredentials: true })
       .subscribe({
         next: (res) => {
           this.questions = res.questions || [];
@@ -100,7 +100,7 @@ export class QuestionAnswerComponent implements OnInit {
       questionIndex: this.currentQuestionIndex
     };
 
-    this.http.post('http://localhost:5000/api/v1/answers', answerData)
+    this.http.post('http://localhost:4000/api/v1/answers', answerData)
       .subscribe({
         next: (res) => {
           console.log('Answer saved successfully:', res);
