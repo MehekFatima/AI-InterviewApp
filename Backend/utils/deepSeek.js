@@ -4,17 +4,19 @@ dotenv.config();
 
 export const generateQuestions = async (jobTitle, experience, jobDescription) => {
   try {
-    const prompt = `Generate 5 concise interview questions for the following:
-Job Title: ${jobTitle}
-Experience: ${experience} years
-Skills: ${jobDescription}
+    const prompt = `
+Generate exactly 5 unique interview questions based on the following job title , description, and experience level. 
+Only output the questions in plain text format as a numbered list, without summaries, topics, or explanations.
 
-Only return the questions in numbered format like and ask like you are the interviewer:
-1. ...
-2. ...
+Job Title: ${jobTitle}
+Job Description: ${jobDescription}
+Experience: ${experience}
+
+Output format:
+1. Question one?
+2. Question two?
 3. ...
-4. ...
-5. ...
+5. Question five?
 `;
 
     const response = await axios.post(
@@ -33,7 +35,10 @@ Only return the questions in numbered format like and ask like you are the inter
       ? rawOutput
       : [];
 
-    const questions = lines.filter(line => line.trim().match(/^\d+\./));
+      const questions = lines
+      .filter(line => line.trim().match(/^\d+\./))
+      .slice(0, 5);
+    
 
     
     return questions;

@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent {
   showPopup: boolean = false;
+  isLoading: boolean = false;
+
 
   newInterview = {
     jobTitle: '',
@@ -60,50 +62,12 @@ export class DashboardComponent {
     this.showPopup = false;
   }
 
-//   startInterview() {
-//     const storedUserId = localStorage.getItem('userId');
-//     const userId = storedUserId ? Number(storedUserId) : 0;
 
-//     // Assign userId to newInterview before sending
-//     
-
-//  const newEntry = {
-//    ...this.newInterview,
-       
-//       createdAt: new Date(),
-//       interviewDate: new Date()
-//     };
-
-//     this.interviewService.generateQuestions(this.newInterview).subscribe({
-//       next: (res: any) => {
-//         console.log('Questions generated:', res);
-//         this.interviews.push(newEntry);
-
-//         this.router.navigate(['/start-interview'], {
-//           state: { data: this.newInterview }
-//         });
-
-//         // Reset the form
-//         this.newInterview = {
-//           
-//           jobTitle: '',
-//           jobDescription: '',
-//           experience: '',
-//           createdAt: ''
-//         };
-
-//         this.showPopup = false;
-//       },
-//       error: (err) => {
-//         console.error('Error generating questions:', err);
-//       }
-//     });
-//   }
 
 startInterview() {
   const storedUserId = localStorage.getItem('userId');
   const userId = storedUserId ? Number(storedUserId) : 0;
-
+  this.isLoading = true; 
   
 
   const newEntry = {
@@ -132,6 +96,7 @@ startInterview() {
       };
 
       this.showPopup = false;
+      this.isLoading = false; 
     },
     error: (err) => {
       console.error('Error generating questions:', err);

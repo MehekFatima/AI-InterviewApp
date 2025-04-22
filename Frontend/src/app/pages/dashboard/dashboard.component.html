@@ -19,6 +19,12 @@
       <label>Experience (in years)</label>
       <input type="number" [(ngModel)]="newInterview.experience" />
 
+      <div class="loader" *ngIf="isLoading">
+        <p>Generating questions, please wait...</p>
+        <div class="spinner"></div>
+      </div>
+      
+
       <div class="popup-actions">
         <button class="cancel-btn" (click)="closePopup()">Cancel</button>
         <button class="start-btn" (click)="startInterview()">Start Interview</button>

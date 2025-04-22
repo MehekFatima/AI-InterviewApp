@@ -17,6 +17,7 @@ export class QuestionAnswerComponent implements OnInit {
   questionTimeLeft = 120000;
   interviewId: string = '';
   @ViewChild('video') videoElementRef!: ElementRef<HTMLVideoElement>;
+  
 
   constructor(private http: HttpClient) {}
 
@@ -26,7 +27,7 @@ export class QuestionAnswerComponent implements OnInit {
     this.enableMedia();
   }
 
-  get currentQuestion() {
+  get currentQuestion():{ questionText: string} | undefined {
     return this.questions[this.currentQuestionIndex];
   }
 
@@ -100,6 +101,18 @@ export class QuestionAnswerComponent implements OnInit {
       }
     }, 1000);
   }
+
+  finishTest() {
+    const confirmed = confirm("Are you sure you want to finish the test?");
+    if (confirmed) {
+      if (this.isRecording && annyang) {
+        annyang.abort();
+      }
+      clearInterval(this.questionTimer);
+      this.redirectToFeedbackPage();
+    }
+  }
+  
 
   saveRecording() {
     const trimmedTranscript = this.transcript.trim();
