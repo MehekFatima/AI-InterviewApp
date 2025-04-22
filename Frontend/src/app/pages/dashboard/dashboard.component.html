@@ -38,7 +38,9 @@
     <div class="interview-card" *ngFor="let interview of interviews">
       <h4>{{ interview.jobTitle }}</h4>
       <p>Created At: {{ interview.interviewDate | date:'medium' }}</p>
-      <button class="feedback-btn">Feedback</button>
+      <!-- <button class="feedback-btn" >Feedback</button> -->
+      <button class="feedback-btn" (click)="goToFeedback(interview._id)">Feedback</button>
+
     </div>
   </div>
 </div>

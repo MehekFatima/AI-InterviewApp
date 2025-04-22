@@ -2,7 +2,8 @@ import { mockInterview } from "../models/mockInterview.js";
 import { User } from "../models/user.js";
 import { generateQuestions } from "../utils/deepSeek.js";
 import mongoose from 'mongoose';
-
+import { generateFeedbackWithDeepSeeek } from "../utils/feedback.js";
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -37,8 +38,10 @@ export const generateQuestionsGemini = async (req, res, next) =>{
       .filter(q => q.trim().match(/^\d+\./));
 
         const formattedQuestions = questions.map((q) => ({questionText:q}));
+        const interviewId = uuidv4();
         // const userId = req.user._id;
           const newInterview = await mockInterview.create({
+            interviewId,
             jobTitle,
             experience,
             jobDescription,
@@ -74,6 +77,7 @@ export const getUserData = async(req, res)=>{
     const interviews = await mockInterview.find({ userId }).select('-__v');
 
     res.status(200).json({
+      interviewId: user.interviewId,
       name: user.name,
       email: user.email,
       interviews
@@ -107,6 +111,7 @@ export const getInterview = async (req, res) => {
 
 
 export const saveAnswer = async (req, res) => {
+  console.log("saving answers called");
   try {
     const { interviewId, text, questionIndex } = req.body;
     console.log("Saving answer for interviewId:", interviewId);
@@ -128,8 +133,8 @@ export const saveAnswer = async (req, res) => {
 
     interview.questions[questionIndex].answerText = text;
 
-    // Optional: only set completed when all answers are filled
-    // interview.completed = interview.questions.every(q => q.answerText && q.answerText.trim());
+    //  set completed when all answers are filled
+    interview.completed = interview.questions.every(q => q.answerText && q.answerText.trim());
 
     await interview.save();
 
@@ -140,3 +145,57 @@ export const saveAnswer = async (req, res) => {
   }
 };
 
+
+export const generateFeedback = async (req, res) => {
+  console.log("Started generating feedback");
+
+  try {
+    const { interviewId } = req.body;
+    console.log("Requested Interview ID:", interviewId);
+
+    // Fetch the interview data
+    const interview = await mockInterview.findById(interviewId);
+    if (!interview) {
+      console.log("Interview not found with ID:", interviewId);
+      return res.status(404).json({ message: "Interview not found" });
+    }
+    if (interview.completed) {
+      return res.status(400).json({ message: "Feedback has already been generated for this interview" });
+    }
+
+    const qaPairs = interview.questions.map(q => ({
+      question: q.questionText,
+      answer: q.answerText || "No answer provided."
+    }));
+
+    console.log("QA Pairs for feedback generation:", qaPairs);
+    const feedbackList = await generateFeedbackWithDeepSeeek(qaPairs);
+
+    if (!Array.isArray(feedbackList)) {
+      console.error("Invalid feedback list received:", feedbackList);
+      return res.status(500).json({ message: "Feedback generation failed: invalid format" });
+    }
+
+    if (feedbackList.length !== interview.questions.length) {
+      console.warn("Feedback count doesn't match question count");
+    }
+
+    // Save feedback to each question
+    interview.questions.forEach((q, idx) => {
+      q.aiFeedback = feedbackList[idx] || "No feedback available.";
+    });
+
+    // Generate overall feedback and save it to the interview
+    interview.overallFeedback = feedbackList.join('\n');
+    interview.completed = true;
+    await interview.save();
+    res.status(200).json({
+      message: "Feedback generated successfully",
+      questions: interview.questions,
+      overallFeedback: interview.overallFeedback
+    });
+  } catch (error) {
+    console.error("Error generating feedback:", error);
+    res.status(500).json({ message: "Failed to generate feedback", error: error.message });
+  }
+};
