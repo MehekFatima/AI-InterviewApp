@@ -2,6 +2,8 @@ import { mockInterview } from "../models/mockInterview.js";
 import { User } from "../models/user.js";
 import { generateQuestions } from "../utils/deepSeek.js";
 import mongoose from 'mongoose';
+import { generateFeedbackWithDeepSeeek } from "../utils/feedback.js";
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -37,8 +39,10 @@ export const generateQuestionsGemini = async (req, res, next) =>{
       .filter(q => q.trim().match(/^\d+\./));
 
         const formattedQuestions = questions.map((q) => ({questionText:q}));
+        const interviewId = uuidv4();
         // const userId = req.user._id;
           const newInterview = await mockInterview.create({
+            interviewId,
             jobTitle,
             experience,
             jobDescription,
@@ -74,6 +78,7 @@ export const getUserData = async(req, res)=>{
     const interviews = await mockInterview.find({ userId }).select('-__v');
 
     res.status(200).json({
+      interviewId: user.interviewId,
       name: user.name,
       email: user.email,
       interviews
@@ -107,6 +112,7 @@ export const getInterview = async (req, res) => {
 
 
 export const saveAnswer = async (req, res) => {
+  console.log("saving answers called");
   try {
     const { interviewId, text, questionIndex } = req.body;
     console.log("Saving answer for interviewId:", interviewId);
@@ -139,4 +145,51 @@ export const saveAnswer = async (req, res) => {
     res.status(500).json({ message: 'Error saving answer', error: error.message || error });
   }
 };
+
+export const generateFeedback = async(req, res) =>{
+   console.log("started generating response");
+   try {
+    const { interviewId } = req.body;
+
+    console.log(interviewId);
+
+    const interview = await mockInterview.findOne({interviewId});
+    
+   
+    if (!interview) {
+      return res.status(404).json({ message: "Interview not found" });
+    }
+
+    
+    const qaPairs = interview.questions.map(q => ({
+      question: q.questionText,
+      answer: q.answerText || "No answer provided."
+    }));
+   
+    console.log("questions answer pair:::::::", qaPairs);
+    
+    const feedbackList = await generateFeedbackWithDeepSeeek(qaPairs);
+
+    // Update feedback and optionally scores
+    interview.questions.forEach((q, idx) => {
+      q.aiFeedback = feedbackList[idx] || "";
+      // You can also set a score here if Deepseek returns it
+    });
+
+    // Optional: set overallFeedback based on all feedback
+    interview.overallFeedback = feedbackList.join('\n');
+
+    await interview.save();
+
+    res.status(200).json({
+      message: "Feedback generated successfully",
+      questions: interview.questions,
+      overallFeedback: interview.overallFeedback
+    });
+
+  } catch (error) {
+    console.error("Error generating feedback:", error);
+    res.status(500).json({ message: "Failed to generate feedback", error: error.message });
+  }
+}
 

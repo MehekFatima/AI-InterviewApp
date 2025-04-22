@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+import { v4 as uuidv4 } from 'uuid';
+
 const questionSchema = new mongoose.Schema({
   questionText: { type: String, required: true },
   answerText: { type: String, default: "" },
@@ -8,6 +10,11 @@ const questionSchema = new mongoose.Schema({
 });
 
 const schema = new mongoose.Schema({
+  interviewId: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
