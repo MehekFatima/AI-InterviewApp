@@ -14,6 +14,7 @@ router.post('/generate-questions', isAuthenticated, generateQuestionsGemini);
 
 router.get('/interviews/:interviewId', isAuthenticated, getInterview); 
   
-router.post('/answers', isAuthenticated, saveAnswer);  
+router.post('/interviews/save-answer', isAuthenticated, saveAnswer);
+
 
 export default router;
