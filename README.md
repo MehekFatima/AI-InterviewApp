@@ -44,11 +44,11 @@ We've used **DeepSeek**, a powerful open-source large language model. Integratio
     http://127.0.0.1:11434
     ```
 ### Demo
-![Login](demo\login.png)
-![signup](demo\signup.png)
-![home](demo\home.png)
-![Create interview](demo\createInterview.png)
-![loading](demo\interviewLoading.png)
+![Login](https://github.com/MehekFatima/AI-InterviewApp/blob/mehek/demo/login.png)
+![signup](https://github.com/MehekFatima/AI-InterviewApp/blob/mehek/demo/signup.png)
+![home](https://github.com/MehekFatima/AI-InterviewApp/blob/mehek/demo/home.png)
+![Create interview](https://github.com/MehekFatima/AI-InterviewApp/blob/mehek/demo/createInterview.png)
+![loading](https://github.com/MehekFatima/AI-InterviewApp/blob/mehek/demo/interviewLoading.png)
 
 ## Contributors
 
