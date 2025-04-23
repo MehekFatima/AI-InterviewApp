@@ -26,19 +26,19 @@ export class QuestionAnswerComponent implements OnInit {
     this.enableMedia();
   }
 
-  get currentQuestion() {
+  get currentQuestion(): { questionText: string } | undefined {
     return this.questions[this.currentQuestionIndex];
   }
 
   fetchInterviewQuestions() {
     const userId = localStorage.getItem('userId') || '';
     console.log('Fetching questions for userId:', userId);
-    
+
     this.http.get<any>(`http://localhost:4000/api/v1/interviews/${userId}`, { withCredentials: true })
       .subscribe({
         next: (res) => {
           this.questions = res.questions || [];
-          this.interviewId = res._id; // store interviewId from backend
+          this.interviewId = res._id;
           this.startTimer();
         },
         error: (err) => {
@@ -76,7 +76,7 @@ export class QuestionAnswerComponent implements OnInit {
   startRecording() {
     if (annyang) {
       this.isRecording = true;
-      this.transcript = ''; // clear previous transcript
+      this.transcript = '';
       annyang.start();
     }
   }
@@ -101,12 +101,23 @@ export class QuestionAnswerComponent implements OnInit {
     }, 1000);
   }
 
+  finishTest() {
+    const confirmed = confirm("Are you sure you want to finish the test?");
+    if (confirmed) {
+      if (this.isRecording && annyang) {
+        annyang.abort();
+      }
+      clearInterval(this.questionTimer);
+      this.redirectToFeedbackPage();
+    }
+  }
+
   saveRecording() {
     const trimmedTranscript = this.transcript.trim();
 
-    // Skip empty transcript and move to next
+    // Skip empty answer and move on
     if (!trimmedTranscript) {
-      this.nextQuestion();
+      this.moveToNextOrEnd();
       return;
     }
 
@@ -120,12 +131,11 @@ export class QuestionAnswerComponent implements OnInit {
     console.log('Transcript:', trimmedTranscript);
     console.log('Question Index:', this.currentQuestionIndex);
 
-
     this.http.post('http://localhost:4000/api/v1/interviews/save-answer', answerData, { withCredentials: true })
       .subscribe({
         next: () => {
           this.transcript = '';
-          this.nextQuestion();
+          this.moveToNextOrEnd();
         },
         error: (err) => {
           console.error('Error saving answer:', err);
@@ -136,6 +146,16 @@ export class QuestionAnswerComponent implements OnInit {
   nextQuestion() {
     clearInterval(this.questionTimer);
 
+    // Stop ongoing recording
+    if (this.isRecording && annyang) {
+      annyang.abort();
+      this.isRecording = false;
+    }
+
+    this.saveRecording();
+  }
+
+  moveToNextOrEnd() {
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
       this.transcript = '';
@@ -164,6 +184,6 @@ export class QuestionAnswerComponent implements OnInit {
   }
 
   redirectToFeedbackPage() {
-    window.location.href = '/feedback';
+    window.location.href = `/feedback/${this.interviewId}`;
   }
 }

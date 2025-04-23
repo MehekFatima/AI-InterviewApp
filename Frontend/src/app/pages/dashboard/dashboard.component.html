@@ -19,6 +19,12 @@
       <label>Experience (in years)</label>
       <input type="number" [(ngModel)]="newInterview.experience" />
 
+      <div class="loader" *ngIf="isLoading">
+        <p>Generating questions, please wait...</p>
+        <div class="spinner"></div>
+      </div>
+      
+
       <div class="popup-actions">
         <button class="cancel-btn" (click)="closePopup()">Cancel</button>
         <button class="start-btn" (click)="startInterview()">Start Interview</button>
@@ -32,7 +38,9 @@
     <div class="interview-card" *ngFor="let interview of interviews">
       <h4>{{ interview.jobTitle }}</h4>
       <p>Created At: {{ interview.interviewDate | date:'medium' }}</p>
-      <button class="feedback-btn">Feedback</button>
+      <!-- <button class="feedback-btn" >Feedback</button> -->
+      <button class="feedback-btn" (click)="goToFeedback(interview._id)">Feedback</button>
+
     </div>
   </div>
 </div>

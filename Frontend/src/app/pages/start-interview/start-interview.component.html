@@ -5,9 +5,9 @@
 
   <div class="interview-layout">
     <div class="job-box">
-      <h3>{{ interviewData?.jobTitle }}</h3>
-      <p><strong>Description:</strong> {{ interviewData?.jobDescription }}</p>
-      <p><strong>Experience:</strong> {{ interviewData?.experience }} years</p>
+      <h3>{{ newInterview?.jobTitle }}</h3>
+      <p><strong>Description:</strong> {{ newInterview?.jobDescription }}</p>
+      <p><strong>Experience:</strong> {{ newInterview?.experience }} years</p>
     </div>
 
     <div *ngIf="!mediaStream" class="camera-box" (click)="enableMedia()">

@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'how-it-works', component: HowItWorksComponent },
   { path: 'start-interview', component: StartInterviewComponent },
   {path:'interview/questions', component:QuestionAnswerComponent},
-  {path:'feedback', component:FeedbackComponent}
+  {path:'feedback/:interviewId', component:FeedbackComponent}
 ];
 
 @NgModule({

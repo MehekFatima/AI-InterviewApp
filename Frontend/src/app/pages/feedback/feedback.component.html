@@ -1,1 +1,20 @@
-<p>feedback works!</p>
+<app-navbar></app-navbar>
+<div class="feedback-container" *ngIf="!loading; else loadingTemplate">
+    <h1>Interview Feedback</h1>
+  
+    <div *ngFor="let q of questions; index as i" class="feedback-card">
+      <h3>Q{{ i + 1 }}: {{ q.questionText }}</h3>
+      <p><strong>Your Answer:</strong> {{ q.answerText }}</p>
+      <p><strong>AI Feedback:</strong> {{ q.aiFeedback }}</p>
+    </div>
+  
+    <div class="overall-feedback">
+      <h2>Overall Feedback</h2>
+      <pre>{{ overallFeedback }}</pre>
+    </div>
+  </div>
+  
+  <ng-template #loadingTemplate>
+    <p>Loading feedback...</p>
+  </ng-template>
+  

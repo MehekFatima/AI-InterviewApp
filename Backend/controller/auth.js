@@ -58,7 +58,7 @@ export const login = async(req, res)=>{
         res.status(400).json({sucess:false, message: "invalid password"});
       }
 
-      sendCookie(user, res , `Welcome back ${user.name}`, 200, user.name, user._id);
+      sendCookie(user, res , `Welcome back ${user.name}`, 200, user.name, user._id, user.interviewId);
 
     } catch (error) {
         console.log(error);
