@@ -159,8 +159,14 @@ export const generateFeedback = async (req, res) => {
       console.log("Interview not found with ID:", interviewId);
       return res.status(404).json({ message: "Interview not found" });
     }
-    if (interview.completed) {
-      return res.status(400).json({ message: "Feedback has already been generated for this interview" });
+    if (interview.completed && interview.overallFeedback) {
+      console.log("Feedback already generated, returning exsiting one");
+      
+      return res.status(200).json({ 
+        message: "Feedback has already been generated for this interview",
+      feedback: interview.overallFeedback,
+      questions: interview.questions 
+    });
     }
 
     const qaPairs = interview.questions.map(q => ({

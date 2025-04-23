@@ -81,6 +81,8 @@ export class DashboardComponent {
         this.router.navigate(['/start-interview'], {
           state: { data: res.interview }
         });
+        console.log('Interview Data:', res.interview);
+        
 
         this.newInterview = {
           jobTitle: '',

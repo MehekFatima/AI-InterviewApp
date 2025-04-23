@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,14 +6,24 @@ import { Router } from '@angular/router';
   templateUrl: './start-interview.component.html',
   styleUrls: ['./start-interview.component.css']
 })
-export class StartInterviewComponent implements AfterViewInit {
+export class StartInterviewComponent implements AfterViewInit, OnInit {
   interviewData: any;
   @ViewChild('webcam', { static: false }) videoElementRef!: ElementRef<HTMLVideoElement>;
   mediaStream: MediaStream | null = null;
+  newInterview: any;
 
   constructor(private router: Router) {
     const nav = this.router.getCurrentNavigation();
-    this.interviewData = nav?.extras.state?.['data'];
+    if (nav?.extras.state?.['data']) {
+      this.newInterview = nav.extras.state['data'];
+      console.log('Interview Data in StartInterviewComponent:', this.newInterview);
+    } else {
+      console.error('No interview data passed');
+    }
+  }
+
+  ngOnInit(): void {
+    console.log('Interview Data in ngOnInit:', this.newInterview);
   }
 
   ngAfterViewInit(): void {
@@ -35,7 +45,7 @@ export class StartInterviewComponent implements AfterViewInit {
           } else {
             console.error('Video element not found');
           }
-        }, 0); 
+        }, 0);
       })
       .catch(err => {
         console.error('Access denied:', err);
@@ -53,5 +63,4 @@ export class StartInterviewComponent implements AfterViewInit {
   navigateToAnswerPage() {
     this.router.navigate(['/interview/questions']);
   }
-
 }
