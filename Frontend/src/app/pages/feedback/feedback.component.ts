@@ -30,7 +30,7 @@ export class FeedbackComponent implements OnInit {
     }
   
     this.http.post<any>(
-      'http://localhost:4000/api/v1/generate-feedback',
+      'https://ai-interview-app-ruddy.vercel.app/api/v1/generate-feedback',
       { interviewId: this.interviewId },
       { withCredentials: true }
     ).subscribe({
@@ -51,7 +51,7 @@ export class FeedbackComponent implements OnInit {
   }
 
   fetchExistingFeedback(){
-    this.http.get(`http://localhost:4000/api/v1/interviews/${this.interviewId}`, { withCredentials: true }).subscribe({
+    this.http.get(`https://ai-interview-app-ruddy.vercel.app/api/v1/interviews/${this.interviewId}`, { withCredentials: true }).subscribe({
       next: (res: any) => {
         this.feedback = res.interview.overallFeedback;
       },
