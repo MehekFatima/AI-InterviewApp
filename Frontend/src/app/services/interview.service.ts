@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class InterviewService {
-  private baseUrl = 'https://ai-interview-app-ruddy.vercel.app/api/v1/';
+  private baseUrl = 'https://ai-interviewapp.onrender.com/api/v1/';
 
   constructor(private http: HttpClient) {}
 
