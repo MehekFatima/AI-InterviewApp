@@ -34,7 +34,7 @@ export class QuestionAnswerComponent implements OnInit {
     const userId = localStorage.getItem('userId') || '';
     console.log('Fetching questions for userId:', userId);
 
-    this.http.get<any>(`http://localhost:4000/api/v1/interviews/${userId}`, { withCredentials: true })
+this.http.get<any>(`https://ai-interviewapp.onrender.com/api/v1/interviews/${userId}`, { withCredentials: true })
       .subscribe({
         next: (res) => {
           this.questions = res.questions || [];
@@ -131,7 +131,7 @@ export class QuestionAnswerComponent implements OnInit {
     console.log('Transcript:', trimmedTranscript);
     console.log('Question Index:', this.currentQuestionIndex);
 
-    this.http.post('http://localhost:4000/api/v1/interviews/save-answer', answerData, { withCredentials: true })
+this.http.post('https://ai-interviewapp.onrender.com/api/v1/interviews/save-answer', answerData, { withCredentials: true })
       .subscribe({
         next: () => {
           this.transcript = '';

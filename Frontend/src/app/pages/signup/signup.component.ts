@@ -32,7 +32,7 @@ export class SignupComponent {
       password: this.password
     };
 
-    this.http.post('http://localhost:4000/api/v1/register', user, { withCredentials: true })
+this.http.post('https://ai-interviewapp.onrender.com/api/v1/register', user, { withCredentials: true })
       .subscribe({
         next: (res: any) => {
           alert('Signup successful');

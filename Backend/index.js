@@ -9,7 +9,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 const app = express();
-
+const PORT = process.env.PORT || 3000;
 
 
 connectDB();
@@ -18,7 +18,7 @@ app.use(express.json());
 
 
 app.use(cors({
-    origin: 'http://localhost:4200',
+    origin: 'https://ai-interview-app-ruddy.vercel.app',
     credentials: true,
 }));
 
@@ -30,6 +30,6 @@ app.get('/',(req, res)=>{
     res.send("hello from server");
 })
 
-app.listen(process.env.PORT, ()=>{
-    console.log(`server started on ${process.env.PORT}`);
+app.listen(PORT, ()=>{
+    console.log(`server started on ${PORT}`);
 })
